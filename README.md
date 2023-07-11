@@ -398,8 +398,9 @@ appropriate error message.
 ### `delete_department()`
 
 The function `delete_department()` should prompt for the department `id` and
-delete the department from the database if it exists or print an error message
-as shown below.
+delete the department from the database if it exists and print a confirmation
+message, or print an error message if the department does not exist as shown
+below:
 
 ```py
 def delete_department():
@@ -407,6 +408,7 @@ def delete_department():
     department = Department.find_by_id(id)
     if department:
         department.delete()
+        print(f('Department {id} deleted'))
     else:
         print(f'Department {id} not found')
 ```
@@ -488,6 +490,7 @@ def delete_department():
     department = Department.find_by_id(id)
     if department:
         department.delete()
+        print(f('Department {id} deleted'))
     else:
         print(f'Department {id} not found')
 
