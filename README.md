@@ -408,7 +408,7 @@ def delete_department():
     department = Department.find_by_id(id)
     if department:
         department.delete()
-        print(f('Department {id} deleted'))
+        print(f'Department {id} deleted')
     else:
         print(f'Department {id} not found')
 ```
@@ -490,7 +490,7 @@ def delete_department():
     department = Department.find_by_id(id)
     if department:
         department.delete()
-        print(f('Department {id} deleted'))
+        print(f'Department {id} deleted')
     else:
         print(f'Department {id} not found')
 
