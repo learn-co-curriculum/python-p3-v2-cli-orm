@@ -343,15 +343,14 @@ Error creating department:  Name cannot be empty and must be a string
 
 ### `update_department()`
 
-The function `update_department()` should list the existing department, then
-prompt for the department `id`, `name`, and `location`. The function must update
-the Python object's state as well as update the database row for that object.
-The function should print an error message if the `id` does not match a row in
-the table, or if the provided `name` or `location` are not valid.
+The function `update_department()` should prompt for the department `id`,
+`name`, and `location`. The function must update the Python object's state as
+well as update the database row for that object. The function should print an
+error message if the `id` does not match a row in the table, or if the provided
+`name` or `location` are not valid.
 
 ```py
 def update_department():
-    list_departments()
     id = input("Enter the department's id: ")
     department = Department.find_by_id(id)
     if department:
@@ -369,23 +368,22 @@ def update_department():
         print(f'Department {id} not found')
 ```
 
-Test the function with valid values for `id`, `name`, and `location`, then
-confirm the database was updated by listing all departments.
+Test the function with valid values for `id`, `name`, and `location`.
 
 ```bash
 Please select an option:
 ...
 > 5
-<Department 1: Payroll, Building A, 5th Floor>
-<Department 2: Human Resources, Building C, East Wing>
-<Department 3: Sales, Building B>
 Enter the department's id: 1
 Enter the department's new name: Payroll and Accounting
 Enter the department's new location: Building Z
 Success: <Department 1: Payroll and Accounting, Building Z>
+```
+
+Confirm the database was updated by listing all departments:
+
+```bash
 Please select an option:
-0. Exit the program
-1. List all departments
 ...
 > 1
 <Department 1: Payroll and Accounting, Building Z>
@@ -393,19 +391,18 @@ Please select an option:
 <Department 3: Sales, Building B>
 ```
 
-You should also testing by providing an invalid id such as `99`, as well as
-empty strings for the `name` and `location` to ensure the function prints an
+You should also test by providing an invalid id such as `99`, as well as empty
+strings for the `name` and `location` to ensure the function prints an
 appropriate error message.
 
 ### `delete_department()`
 
-The function `delete_department()` should list the existing departments, then
-prompt for the department `id` and delete the department from the database if it
-exists or print an error message as shown below.
+The function `delete_department()` should prompt for the department `id` and
+delete the department from the database if it exists or print an error message
+as shown below.
 
 ```py
 def delete_department():
-    list_departments()
     id = input("Enter the department's id: ")
     department = Department.find_by_id(id)
     if department:
@@ -469,7 +466,6 @@ def create_department():
 
 
 def update_department():
-    list_departments()
     id = input("Enter the department's id: ")
     department = Department.find_by_id(id)
     if department:
@@ -488,7 +484,6 @@ def update_department():
 
 
 def delete_department():
-    list_departments()
     id = input("Enter the department's id: ")
     department = Department.find_by_id(id)
     if department:
