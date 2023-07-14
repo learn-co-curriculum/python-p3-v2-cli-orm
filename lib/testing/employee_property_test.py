@@ -13,53 +13,53 @@ class TestEmployeeProperties:
         Department.drop_table()
         Employee.create_table()
         Department.create_table()
+        # clear the object cache
+        Department.all = {}
+        Employee.all = {}
 
     def test_name_job_department_valid(self):
         '''validates name, job title, department id are valid'''
         # should not raise exception
         department = Department.create("Payroll", "Building A, 5th Floor")
-        employee = Employee.create("Lee", "Manager", department)
+        employee = Employee.create("Lee", "Manager", department.id)
 
     def test_name_is_string(self):
         '''validates name property is assigned a string'''
         with pytest.raises(ValueError):
             department = Department.create("Payroll", "Building A, 5th Floor")
-            employee = Employee.create("Lee", "Manager", department)
+            employee = Employee.create("Lee", "Manager", department.id)
             employee.name = 7
 
     def test_name_string_length(self):
         '''validates name property length > 0'''
         with pytest.raises(ValueError):
             department = Department.create("Payroll", "Building A, 5th Floor")
-            employee = Employee.create("Lee", "Manager", department)
+            employee = Employee.create("Lee", "Manager", department.id)
             employee.name = ''
 
     def test_location_is_string(self):
         '''validates job_title property is assigned a string'''
         with pytest.raises(ValueError):
             department = Department.create("Payroll", "Building A, 5th Floor")
-            employee = Employee.create("Lee", "Manager", department)
+            employee = Employee.create("Lee", "Manager", department.id)
             employee.job_title = 7
 
     def test_location_string_length(self):
         '''validates job_title property length > 0'''
         with pytest.raises(ValueError):
             department = Department.create("Payroll", "Building A, 5th Floor")
-            employee = Employee.create("Lee", "Manager", department)
+            employee = Employee.create("Lee", "Manager", department.id)
             employee.job_title = ''
 
-    def test_department_property_create(self):
+    def test_department_property(self):
+        department = Department.create("Payroll", "Building C, 3rd Floor")
+        employee = Employee.create(
+            "Raha", "Accountant", department.id)  # no exception
+
+    def test_department_property_fk(self):
         with pytest.raises(ValueError):
             Employee.create("Raha", "Accountant", 7)
 
-    def test_department_property_type_assignment(self):
+    def test_department_property_type(self):
         with pytest.raises(ValueError):
-            department = Department.create("Payroll", "Building C, 3rd Floor")
-            employee = Employee.create("Raha", "Accountant", department)
-            employee.department = 10  # Must be Department object
-
-    def test_department_fk_property_assignment(self):
-        with pytest.raises(ValueError):
-            department = Department.create("Payroll", "Building C, 3rd Floor")
-            employee = Employee.create("Raha", "Accountant", department)
-            employee.department = Department("HR", "Building A")  # Not in db
+            employee = Employee.create("Raha", "Accountant", "abc")

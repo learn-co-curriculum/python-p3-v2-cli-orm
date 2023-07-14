@@ -3,6 +3,9 @@ from classes.__init__ import CURSOR, CONN
 
 class Department:
 
+    # Dictionary for mapping a table row to a persisted class instance.
+    all = {}
+
     def __init__(self, name, location, id=None):
         self.id = id
         self.name = name
@@ -21,7 +24,7 @@ class Department:
             self._name = name
         else:
             raise ValueError(
-                "Name cannot be empty and must be a string"
+                "Name must be a non-empty string"
             )
 
     @property
@@ -34,7 +37,7 @@ class Department:
             self._location = location
         else:
             raise ValueError(
-                "Location cannot be empty and must be a string"
+                "Location must be a non-empty string"
             )
 
     @classmethod
@@ -60,7 +63,8 @@ class Department:
 
     def save(self):
         """ Insert a new row with the name and location values of the current Department object.
-        Update object id attribute using the primary key value of new row"""
+        Update object id attribute using the primary key value of new row.
+        Save the object in local dictionary using table row's PK as dictionary key"""
         sql = """
             INSERT INTO departments (name, location)
             VALUES (?, ?)
@@ -70,6 +74,7 @@ class Department:
         CONN.commit()
 
         self.id = CURSOR.lastrowid
+        Department.all[self.id] = self
 
     @classmethod
     def create(cls, name, location):
@@ -99,15 +104,25 @@ class Department:
         CONN.commit()
 
     @classmethod
-    def new_from_db(cls, row):
-        """Return a new Department object using the values from the table row."""
-        department = cls(row[1], row[2])
-        department.id = row[0]
+    def instance_from_db(cls, row):
+        """Return a Department object having the attribute values from the table row."""
+
+        # Check the dictionary for an existing class instance using the row's primary key
+        department = Department.all.get(row[0])
+        if department:
+            # ensure attributes match row values in case local object was modified
+            department.name = row[1]
+            department.location = row[2]
+        # not in dictionary, create new class instance and add to dictionary
+        else:
+            department = cls(row[1], row[2])
+            department.id = row[0]
+            Department.all[department.id] = department
         return department
 
     @classmethod
     def get_all(cls):
-        """Return a list containing a new Department object for each row in the table"""
+        """Return a list containing a Department object per row in the table"""
         sql = """
             SELECT *
             FROM departments
@@ -115,12 +130,11 @@ class Department:
 
         rows = CURSOR.execute(sql).fetchall()
 
-        cls.all = [cls.new_from_db(row) for row in rows]
-        return cls.all
+        return [cls.instance_from_db(row) for row in rows]
 
     @classmethod
     def find_by_id(cls, id):
-        """Return a new Department object corresponding to the table row matching the specified primary key"""
+        """Return a Department object corresponding to the table row matching the specified primary key"""
         sql = """
             SELECT *
             FROM departments
@@ -128,11 +142,11 @@ class Department:
         """
 
         row = CURSOR.execute(sql, (id,)).fetchone()
-        return cls.new_from_db(row) if row else None
+        return cls.instance_from_db(row) if row else None
 
     @classmethod
     def find_by_name(cls, name):
-        """Return a new Department object corresponding to first table row matching specified name"""
+        """Return a Department object corresponding to first table row matching specified name"""
         sql = """
             SELECT *
             FROM departments
@@ -140,9 +154,10 @@ class Department:
         """
 
         row = CURSOR.execute(sql, (name,)).fetchone()
-        return cls.new_from_db(row) if row else None
+        return cls.instance_from_db(row) if row else None
 
     def employees(self):
+        """Return list of employees associated with current department"""
         from classes.employee import Employee
         sql = """
             SELECT * FROM employees
@@ -152,5 +167,5 @@ class Department:
 
         rows = CURSOR.fetchall()
         return [
-            Employee(row[1], row[2], self, row[0]) for row in rows
+            Employee.instance_from_db(row) for row in rows
         ]

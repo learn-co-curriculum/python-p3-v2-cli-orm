@@ -17,14 +17,11 @@ def seed_database():
     payroll = Department.create("Payroll", "Building A, 5th Floor")
     human_resources = Department.create(
         "Human Resources", "Building C, East Wing")
-    departments = [payroll, human_resources]
-
-    fake = Faker()
-    jobs = ["Database Administrator", "Manager",
-            "Full-stack Engineer", "Web Designer"]
-    for i in range(5):
-        Employee.create(fake.name(), random.choice(
-            jobs), random.choice(departments))
+    Employee.create("Amir", "Accountant", payroll.id)
+    Employee.create("Bola", "Manager", payroll.id)
+    Employee.create("Charlie", "Manager", human_resources.id)
+    Employee.create("Dani", "Benefits Coordinator", human_resources.id)
+    Employee.create("Hao", "New Hires Coordinator", human_resources.id)
 
 
 seed_database()

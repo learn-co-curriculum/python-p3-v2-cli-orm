@@ -29,8 +29,8 @@
 
 ## Code Along
 
-In this lesson we will implement a CLI to provide a text-based interface to an
-ORM application. This lesson is a code-along, so fork and clone the repo.
+Let's implement a CLI to provide a text-based interface to an ORM application.
+This lesson is a code-along, so fork and clone the repo.
 
 **NOTE: Remember to run `pipenv install` to install the dependencies and
 `pipenv shell` to enter your virtual environment before running your code.**
@@ -74,10 +74,9 @@ Take a look at the directory structure:
 The `lib/classes` folder contains the `Department` and `Employee` class, along
 with `__init__.py`. There are a few things to note:
 
-- The database environment setup is in `/lib/classes/**init**.py` (previous
-  lessons named this file `config.py`).
-- Import statements in all of the Python files have been evolved to account for
-  the `lib/classes` folder.
+- The database environment setup is in `/lib/classes/**init**.py`.
+- Import statements in the Python files have been evolved to account for the
+  `lib/classes` folder.
 
 You should not need to make any changes to `Department` or `Employee`.
 
@@ -111,7 +110,7 @@ contents. (Another alternative is to run `python lib/debug.py` and use the
 
 ---
 
-### `lib/cli.py` and `lib/helpers.py`
+### `cli.py` and `helpers.py`
 
 The file `lib/cli.py` contains a command line interface for our company database
 application. The `main` method has a loop that (1) displays a menu of choices,
@@ -162,15 +161,15 @@ Goodbye!
 ```
 
 We will implement the functions related to the `Department` class in this
-lesson. You will implement the functions related to the `Employee` class in the
-lab.
+lesson. You will then implement the functions related to the `Employee` class in
+the lab.
 
 ### `list_departments()`
 
-Let's start by implementing the`list_departments()` function in
-`lib/helpers.py`. The function should get all departments stored in the
-database, then print each department on a new line. Replace the `pass` statement
-with the code shown below:
+Let's start with the `list_departments()` function in `lib/helpers.py`. The
+function should get all departments stored in the database, then print each
+department on a new line. Replace the `pass` statement with the code shown
+below:
 
 ```py
 def list_departments():
@@ -190,10 +189,6 @@ Please select an option:
 > 1
 <Department 1: Payroll, Building A, 5th Floor>
 <Department 2: Human Resources, Building C, East Wing>
-Please select an option:
-0. Exit the program
-1. List all departments
-...
 ```
 
 ### `find_department_by_name()`
@@ -221,9 +216,6 @@ Please select an option:
 > 2
 Enter the department's name: Payroll
 <Department 1: Payroll, Building A, 5th Floor>
-Please select an option:
-0. Exit the program
-...
 ```
 
 Try entering a name that does not match any department:
@@ -237,9 +229,6 @@ Please select an option:
 > 2
 Enter the department's name: Sales and Marketing
 Department Sales and Marketing not found
-Please select an option:
-0. Exit the program
-...
 ```
 
 ### `find_department_by_id()`
@@ -302,14 +291,6 @@ Please select an option:
 Enter the department's name: Sales
 Enter the department's location: Building B
 Success: <Department 3: Sales, Building B>
-Please select an option:
-...
-4: Create department
-...
-> 4
-Enter the department's name: Sales
-Enter the department's location: Building B
-Success: <Department 3: Sales, Building B>
 ```
 
 Let's confirm the department was added to the database by listing all
@@ -330,11 +311,7 @@ Try entering invalid data for name and location:
 
 ```bash
 Please select an option:
-0. Exit the program
-1. List all departments
-2. Find department by name
-3. Find department by id
-4: Create department
+...
 > 4
 Enter the department's name:
 Enter the department's location:
@@ -392,8 +369,8 @@ Please select an option:
 ```
 
 You should also test by providing an invalid id such as `99`, as well as empty
-strings for the `name` and `location` to ensure the function prints an
-appropriate error message.
+strings for the `name` and `location` to ensure the function prints appropriate
+error messages.
 
 ### `delete_department()`
 
@@ -493,6 +470,7 @@ def delete_department():
         print(f'Department {id} deleted')
     else:
         print(f'Department {id} not found')
+
 
 # You'll implement the employee functions in the lab
 
