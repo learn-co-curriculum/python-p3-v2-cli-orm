@@ -50,7 +50,7 @@ Take a look at the directory structure:
 ```console
 .
 └── lib
-    ├── classes
+    ├── models
         ├── __init__.py
         ├── department.py
     │   └── employee.py
@@ -71,12 +71,12 @@ Take a look at the directory structure:
 ├── README.md
 ```
 
-The `lib/classes` folder contains the `Department` and `Employee` class, along
+The `lib/models` folder contains the `Department` and `Employee` class, along
 with `__init__.py`. There are a few things to note:
 
-- The database environment setup is in `/lib/classes/**init**.py`.
+- The database environment setup is in `/lib/models/**init**.py`.
 - Import statements in the Python files have been evolved to account for the
-  `lib/classes` folder.
+  `lib/models` folder.
 
 You should not need to make any changes to `Department` or `Employee`.
 
@@ -85,7 +85,7 @@ You should not need to make any changes to `Department` or `Employee`.
 This is **not** a test-driven code-along, although the repo does contain a
 `lib/testing` folder that tests the current implementation `Department` and
 `Employee`. If you look over the test files, you can see how to adapt the
-`import` statements to find classes within the `lib/classes` subfolder. This
+`import` statements to find classes within the `lib/models` subfolder. This
 could be useful when you're implementing the Phase 3 project if you choose to
 use a similar directory structure.
 
@@ -404,8 +404,8 @@ class as part of the next lab.
 ## Solution Code
 
 ```py
-from classes.department import Department
-from classes.employee import Employee
+from models.department import Department
+from models.employee import Employee
 
 
 def exit_program():

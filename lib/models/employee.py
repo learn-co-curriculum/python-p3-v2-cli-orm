@@ -1,10 +1,9 @@
-from classes.__init__ import CURSOR, CONN
-from classes.department import Department
-
+from models.__init__ import CURSOR, CONN
+from models.department import Department
 
 class Employee:
 
-    # Dictionary for mapping a table row to a persisted class instance.
+    # Dictionary of objects saved to the database.
     all = {}
 
     def __init__(self, name, job_title, department_id, id=None):
@@ -17,9 +16,7 @@ class Employee:
         return (
             f"<Employee {self.id}: {self.name}, {self.job_title}, " +
             f"Department ID: {self.department_id}>"
-
         )
-
     @property
     def name(self):
         return self._name
@@ -60,7 +57,7 @@ class Employee:
 
     @classmethod
     def create_table(cls):
-        """ Create a new table to persist the attributes of Employee class instances """
+        """ Create a new table to persist the attributes of Employee instances """
         sql = """
             CREATE TABLE IF NOT EXISTS employees (
             id INTEGER PRIMARY KEY,
@@ -74,7 +71,7 @@ class Employee:
 
     @classmethod
     def drop_table(cls):
-        """ Drop the table that persists Employee class instances """
+        """ Drop the table that persists Employee instances """
         sql = """
             DROP TABLE IF EXISTS employees;
         """
@@ -97,7 +94,7 @@ class Employee:
         Employee.all[self.id] = self
 
     def update(self):
-        """Update the table row corresponding to the current Employee object."""
+        """Update the table row corresponding to the current Employee instance."""
         sql = """
             UPDATE employees
             SET name = ?, job_title = ?, department_id = ?
@@ -108,7 +105,7 @@ class Employee:
         CONN.commit()
 
     def delete(self):
-        """Delete the row corresponding to the current Employee object"""
+        """Delete the row corresponding to the current Employee instance"""
         sql = """
             DELETE FROM employees
             WHERE id = ?
@@ -119,7 +116,7 @@ class Employee:
 
     @classmethod
     def create(cls, name, job_title, department_id):
-        """ Initialize a new Employee object and save the object to the database """
+        """ Initialize a new Employee instance and save the object to the database """
         employee = Employee(name, job_title, department_id)
         employee.save()
         return employee
@@ -128,14 +125,14 @@ class Employee:
     def instance_from_db(cls, row):
         """Return an Employee object having the attribute values from the table row."""
 
-        # Check the dictionary for  existing class instance using the row's primary key
+        # Check the dictionary for  existing instance using the row's primary key
         employee = Employee.all.get(row[0])
         if employee:
-            # ensure attributes match row values in case local object was modified
+            # ensure attributes match row values in case local instance was modified
             employee.name = row[1]
             employee.job_title = row[2]
             employee.department_id = row[3]
-        # not in dictionary, create new class instance and add to dictionary
+        # not in dictionary, create new instance and add to dictionary
         else:
             employee = cls(row[1], row[2], row[3])
             employee.id = row[0]

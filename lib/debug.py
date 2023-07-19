@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from classes.__init__ import CONN, CURSOR
-from classes.department import Department
-from classes.employee import Employee
+from models.__init__ import CONN, CURSOR
+from models.department import Department
+from models.employee import Employee
 import ipdb
 
 
