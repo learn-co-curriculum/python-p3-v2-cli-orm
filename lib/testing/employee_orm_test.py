@@ -1,6 +1,6 @@
-from classes.__init__ import CONN, CURSOR
-from classes.employee import Employee
-from classes.department import Department
+from models.__init__ import CONN, CURSOR
+from models.employee import Employee
+from models.department import Department
 from faker import Faker
 import pytest
 

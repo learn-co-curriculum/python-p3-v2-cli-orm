@@ -1,6 +1,7 @@
-from classes.__init__ import CONN, CURSOR
-from classes.department import Department
+from models.__init__ import CONN, CURSOR
+from models.department import Department
 import pytest
+
 
 
 class TestDepartment:
@@ -206,7 +207,7 @@ class TestDepartment:
     def test_get_employees(self):
         '''contain a method "employees" that gets the employees for the current Department instance '''
 
-        from classes.employee import Employee  # avoid circular import issue
+        from models.employee import Employee  # avoid circular import issue
         Employee.all = {}
 
         Department.create_table()

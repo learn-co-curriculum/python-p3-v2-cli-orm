@@ -1,5 +1,6 @@
-from classes.department import Department
+from models.department import Department
 import pytest
+
 
 
 class TestDepartmentProperties:

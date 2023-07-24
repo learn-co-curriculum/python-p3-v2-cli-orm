@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
-import random
-from classes.__init__ import CONN, CURSOR
-from classes.department import Department
-from classes.employee import Employee
-from faker import Faker
-
+from models.__init__ import CONN, CURSOR
+from models.department import Department
+from models.employee import Employee
 
 def seed_database():
     Employee.drop_table()
