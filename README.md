@@ -1,4 +1,4 @@
-# CLI and ORM
+# CLI and ORM : Code-Along
 
 ## Learning Goals
 
