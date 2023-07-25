@@ -329,8 +329,8 @@ error message if the `id` does not match a row in the table, or if the provided
 
 ```py
 def update_department():
-    id = input("Enter the department's id: ")
-    if department := Department.find_by_id(id):
+    id_ = input("Enter the department's id: ")
+    if department := Department.find_by_id(id_):
         try:
             name = input("Enter the department's new name: ")
             department.name = name
@@ -342,7 +342,7 @@ def update_department():
         except Exception as exc:
             print("Error updating department: ", exc)
     else:
-        print(f'Department {id} not found')
+        print(f'Department {id_} not found')
 ```
 
 Test the function with valid values for `id`, `name`, and `location`.
