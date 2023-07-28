@@ -1,3 +1,4 @@
+# lib/models/department.py
 from __init__ import CURSOR, CONN
 
 
@@ -62,7 +63,7 @@ class Department:
         CONN.commit()
 
     def save(self):
-        """ Insert a new row with the name and location values of the current Department object.
+        """ Insert a new row with the name and location values of the current Department instance.
         Update object id attribute using the primary key value of new row.
         Save the object in local dictionary using table row's PK as dictionary key"""
         sql = """
@@ -94,7 +95,9 @@ class Department:
         CONN.commit()
 
     def delete(self):
-        """Delete the table row corresponding to the current Department instance"""
+        """Delete the table row corresponding to the current Department instance,
+        delete the dictionary entry, and reassign id attribute"""
+
         sql = """
             DELETE FROM departments
             WHERE id = ?
@@ -102,8 +105,12 @@ class Department:
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
-        # remove object from local dictionary
+
+        # Delete the dictionary entry using id as the key
         del type(self).all[self.id]
+
+        # Set the id to None
+        self.id = None
 
     @classmethod
     def instance_from_db(cls, row):
@@ -115,8 +122,8 @@ class Department:
             # ensure attributes match row values in case local instance was modified
             department.name = row[1]
             department.location = row[2]
-        # not in dictionary, create new instance and add to dictionary
         else:
+            # not in dictionary, create new instance and add to dictionary
             department = cls(row[1], row[2])
             department.id = row[0]
             cls.all[department.id] = department

@@ -2,8 +2,6 @@ from models.__init__ import CONN, CURSOR
 from models.department import Department
 import pytest
 
-
-
 class TestDepartment:
     '''Class Department in department.py'''
 
@@ -122,9 +120,11 @@ class TestDepartment:
 
         # assert department2 row is deleted
         assert (Department.find_by_id(id2) is None)
-        # assert department2 object state remains correct
-        assert ((id2, "Sales and Marketing", "Building B, 4th Floor")
+        # assert department2 object state is correct, id should be None
+        assert ((None, "Sales and Marketing", "Building B, 4th Floor")
                 == (department2.id, department2.name, department2.location))
+        # assert dictionary entry was deleted
+        assert(Department.all.get(id2) is None)
 
     def test_instance_from_db(self):
         '''contains method "instance_from_db()" that takes a table row and returns a Department instance.'''
