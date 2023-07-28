@@ -382,8 +382,7 @@ below:
 ```py
 def delete_department():
     id_ = input("Enter the department's id: ")
-    department = Department.find_by_id(id_)
-    if department:
+    if department := Department.find_by_id(id_):
         department.delete()
         print(f'Department {id_} deleted')
     else:
@@ -463,8 +462,7 @@ def update_department():
 
 def delete_department():
     id_ = input("Enter the department's id: ")
-    department = Department.find_by_id(id_)
-    if department:
+    if department := Department.find_by_id(id_):
         department.delete()
         print(f'Department {id_} deleted')
     else:
