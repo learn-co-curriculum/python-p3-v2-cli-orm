@@ -1,4 +1,5 @@
-from models.__init__ import CURSOR, CONN
+from __init__ import CURSOR, CONN
+
 
 class Department:
 
@@ -19,7 +20,7 @@ class Department:
 
     @name.setter
     def name(self, name):
-        if isinstance(name, str) and len(name) > 0:
+        if isinstance(name, str) and len(name):
             self._name = name
         else:
             raise ValueError(
@@ -32,7 +33,7 @@ class Department:
 
     @location.setter
     def location(self, location):
-        if isinstance(location, str) and len(location) > 0:
+        if isinstance(location, str) and len(location):
             self._location = location
         else:
             raise ValueError(
@@ -73,12 +74,12 @@ class Department:
         CONN.commit()
 
         self.id = CURSOR.lastrowid
-        Department.all[self.id] = self
+        type(self).all[self.id] = self
 
     @classmethod
     def create(cls, name, location):
         """ Initialize a new Department instance and save the object to the database """
-        department = Department(name, location)
+        department = cls(name, location)
         department.save()
         return department
 
@@ -101,13 +102,15 @@ class Department:
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+        # remove object from local dictionary
+        del type(self).all[self.id]
 
     @classmethod
     def instance_from_db(cls, row):
         """Return a Department object having the attribute values from the table row."""
 
         # Check the dictionary for an existing instance using the row's primary key
-        department = Department.all.get(row[0])
+        department = cls.all.get(row[0])
         if department:
             # ensure attributes match row values in case local instance was modified
             department.name = row[1]
@@ -116,7 +119,7 @@ class Department:
         else:
             department = cls(row[1], row[2])
             department.id = row[0]
-            Department.all[department.id] = department
+            cls.all[department.id] = department
         return department
 
     @classmethod
@@ -157,7 +160,7 @@ class Department:
 
     def employees(self):
         """Return list of employees associated with current department"""
-        from models.employee import Employee
+        from employee import Employee
         sql = """
             SELECT * FROM employees
             WHERE department_id = ?

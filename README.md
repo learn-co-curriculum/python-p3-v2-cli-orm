@@ -239,9 +239,10 @@ or an error message:
 
 ```py
 def find_department_by_id():
-    id = input("Enter the department's id: ")
-    department = Department.find_by_id(id)
-    print(department) if department else print(f'Department {id} not found')
+    #use a trailing underscore not to override the built-in id function
+    id_ = input("Enter the department's id: ")
+    department = Department.find_by_id(id_)
+    print(department) if department else print(f'Department {id_} not found')
 ```
 
 Run `python lib/cli.py` to test the function. Test with various id values:
@@ -328,9 +329,8 @@ error message if the `id` does not match a row in the table, or if the provided
 
 ```py
 def update_department():
-    id = input("Enter the department's id: ")
-    department = Department.find_by_id(id)
-    if department:
+    id_ = input("Enter the department's id: ")
+    if department := Department.find_by_id(id_):
         try:
             name = input("Enter the department's new name: ")
             department.name = name
@@ -342,7 +342,7 @@ def update_department():
         except Exception as exc:
             print("Error updating department: ", exc)
     else:
-        print(f'Department {id} not found')
+        print(f'Department {id_} not found')
 ```
 
 Test the function with valid values for `id`, `name`, and `location`.
@@ -381,13 +381,13 @@ below:
 
 ```py
 def delete_department():
-    id = input("Enter the department's id: ")
-    department = Department.find_by_id(id)
+    id_ = input("Enter the department's id: ")
+    department = Department.find_by_id(id_)
     if department:
         department.delete()
-        print(f'Department {id} deleted')
+        print(f'Department {id_} deleted')
     else:
-        print(f'Department {id} not found')
+        print(f'Department {id_} not found')
 ```
 
 Run `python lib/cli.py` and test the delete option with an existing department
@@ -429,9 +429,9 @@ def find_department_by_name():
 
 
 def find_department_by_id():
-    id = input("Enter the department's id: ")
-    department = Department.find_by_id(id)
-    print(department) if department else print(f'Department {id} not found')
+    id_ = input("Enter the department's id: ")
+    department = Department.find_by_id(id_)
+    print(department) if department else print(f'Department {id_} not found')
 
 
 def create_department():
@@ -446,8 +446,7 @@ def create_department():
 
 def update_department():
     id = input("Enter the department's id: ")
-    department = Department.find_by_id(id)
-    if department:
+    if department := Department.find_by_id(id):
         try:
             name = input("Enter the department's new name: ")
             department.name = name
@@ -463,13 +462,12 @@ def update_department():
 
 
 def delete_department():
-    id = input("Enter the department's id: ")
-    department = Department.find_by_id(id)
-    if department:
+    id_ = input("Enter the department's id: ")
+    if department := Department.find_by_id(id_):
         department.delete()
-        print(f'Department {id} deleted')
+        print(f'Department {id_} deleted')
     else:
-        print(f'Department {id} not found')
+        print(f'Department {id_} not found')
 
 
 # You'll implement the employee functions in the lab
