@@ -1,5 +1,5 @@
 # lib/models/department.py
-from __init__ import CURSOR, CONN
+from models.__init__ import CURSOR, CONN
 
 
 class Department:
@@ -167,7 +167,7 @@ class Department:
 
     def employees(self):
         """Return list of employees associated with current department"""
-        from employee import Employee
+        from models.employee import Employee
         sql = """
             SELECT * FROM employees
             WHERE department_id = ?
